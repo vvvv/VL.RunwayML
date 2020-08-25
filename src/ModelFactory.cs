@@ -222,6 +222,17 @@ namespace VL.RunwayML
 
         class MyNode : VLObject, IVLNode
         {
+            static string LowercaseFirst(string s)
+            {
+                if (string.IsNullOrEmpty(s))
+                {
+                    return string.Empty;
+                }
+                char[] a = s.ToCharArray();
+                a[0] = char.ToLower(a[0]);
+                return new string(a);
+            }
+
             class MyPin : IVLPin
             {
                 public object Value { get; set; }
@@ -235,8 +246,8 @@ namespace VL.RunwayML
             public MyNode(ModelDescription description, NodeContext nodeContext) : base(nodeContext)
             {
                 this.description = description;
-                Inputs = description.Inputs.Select(p => new MyPin() { Name = p.Name, Type = p.Type, Value = p.DefaultValue }).ToArray();
-                Outputs = description.Outputs.Select(p => new MyPin() { Name = p.Name, Type = p.Type, Value = p.DefaultValue }).ToArray();
+                Inputs = description.Inputs.Select(p => new MyPin() { Name = LowercaseFirst(p.Name), Type = p.Type, Value = p.DefaultValue }).ToArray();
+                Outputs = description.Outputs.Select(p => new MyPin() { Name = LowercaseFirst(p.Name), Type = p.Type, Value = p.DefaultValue }).ToArray();
             }
 
             public IVLNodeDescription NodeDescription => description;
