@@ -142,7 +142,7 @@ namespace VL.RunwayML
                 else if (pin.type == "number")
                 {
                     int step;
-                    if (int.TryParse(pin.step.ToString(), out step))
+                    if (int.TryParse(pin.step?.ToString() ?? pin.@default.ToString(), out step))
                     {
                         type = typeof(int);
                         int d;
