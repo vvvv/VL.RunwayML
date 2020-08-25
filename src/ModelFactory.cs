@@ -53,11 +53,22 @@ namespace VL.RunwayML
             List<PinDescription> inputs = new List<PinDescription>();
             List<PinDescription> outputs = new List<PinDescription>();
 
+            static string UppercaseFirst(string s)
+            {
+                if (string.IsNullOrEmpty(s))
+                {
+                    return string.Empty;
+                }
+                char[] a = s.ToCharArray();
+                a[0] = char.ToUpper(a[0]);
+                return new string(a);
+            }
+
             class PinDescription : IVLPinDescription
             {
                 public PinDescription(string name, Type type, object defaultValue)
                 {
-                    Name = name;
+                    Name = UppercaseFirst(name);
                     Type = type;
                     DefaultValue = defaultValue;
                 }
