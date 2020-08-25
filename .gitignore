@@ -1,0 +1,13 @@
+.vs
+src/obj/
+/lib
+
+# .v4p backup files
+*~.xml
+
+# Dynamic plugins .dll
+bin/
+
+/src/obj/
+.vl/
+/src/VL.LeapOrion.xkpkg.user

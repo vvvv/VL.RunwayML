@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <UserSecretsId>7b8e6ec5-f703-473a-916a-60aa1350b34e</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
+    <PackageReference Include="VL.Skia" Version="2020.2.0-0217-g78b13ed816" />
+  </ItemGroup>
+
+</Project>
