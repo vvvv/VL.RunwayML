@@ -41,6 +41,40 @@ namespace VL.RunwayML
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        class ModelPinDescription : IVLPinDescription
+        {
+            static string BeautifyPin(string s)
+            {
+                if (string.IsNullOrEmpty(s))
+                {
+                    return string.Empty;
+                }
+
+                var parts = s.Split('_');
+                var result = "";
+                foreach (var part in parts)
+                {
+                    char[] a = part.ToCharArray();
+                    a[0] = char.ToUpper(a[0]);
+                    result += new string(a) + " ";
+                }
+                return result.Trim();
+            }
+
+            public ModelPinDescription(string name, Type type, object defaultValue)
+            {
+                Name = BeautifyPin(name);
+                OriginalName = name;
+                Type = type;
+                DefaultValue = defaultValue;
+            }
+
+            public string Name { get; }
+            public string OriginalName { get; }
+            public Type Type { get; }
+            public object DefaultValue { get; }
+        }
+
         class ModelDescription : IVLNodeDescription
         {
             bool initialized;
@@ -50,33 +84,8 @@ namespace VL.RunwayML
             string InfoUrl => Url + "info";
             public string QueryUrl => Url + "query";
             public string Token;
-            List<PinDescription> inputs = new List<PinDescription>();
-            List<PinDescription> outputs = new List<PinDescription>();
-
-            static string UppercaseFirst(string s)
-            {
-                if (string.IsNullOrEmpty(s))
-                {
-                    return string.Empty;
-                }
-                char[] a = s.ToCharArray();
-                a[0] = char.ToUpper(a[0]);
-                return new string(a);
-            }
-
-            class PinDescription : IVLPinDescription
-            {
-                public PinDescription(string name, Type type, object defaultValue)
-                {
-                    Name = UppercaseFirst(name);
-                    Type = type;
-                    DefaultValue = defaultValue;
-                }
-
-                public string Name { get; }
-                public Type Type { get; }
-                public object DefaultValue { get; }
-            }
+            List<ModelPinDescription> inputs = new List<ModelPinDescription>();
+            List<ModelPinDescription> outputs = new List<ModelPinDescription>();
 
             public ModelDescription(IVLNodeDescriptionFactory factory, string name, string url, string token)
             {
@@ -111,15 +120,15 @@ namespace VL.RunwayML
                     foreach (var input in model.inputs)
                     {
                         GetTypeAndDefault(input, ref type, ref dflt);
-                        inputs.Add(new PinDescription(input.name.ToString(), type, dflt));
+                        inputs.Add(new ModelPinDescription(input.name.ToString(), type, dflt));
                     }
 
-                    inputs.Add(new PinDescription("Query", typeof(bool), false));
+                    inputs.Add(new ModelPinDescription("Query", typeof(bool), false));
 
                     foreach (var output in model.outputs)
                     {
                         GetTypeAndDefault(output, ref type, ref dflt);
-                        outputs.Add(new PinDescription(output.name.ToString(), type, dflt));
+                        outputs.Add(new ModelPinDescription(output.name.ToString(), type, dflt));
                     }
 
                     initialized = true;
@@ -222,23 +231,12 @@ namespace VL.RunwayML
 
         class MyNode : VLObject, IVLNode
         {
-            static string LowercaseFirst(string s)
-            {
-                if (string.IsNullOrEmpty(s))
-                {
-                    return string.Empty;
-                }
-                char[] a = s.ToCharArray();
-                a[0] = char.ToLower(a[0]);
-                return new string(a);
-            }
-
             class MyPin : IVLPin
             {
                 public object Value { get; set; }
-
                 public Type Type { get; set; }
                 public string Name { get; set; }
+                public string OriginalName { get; set; }
             }
 
             readonly ModelDescription description;
@@ -246,8 +244,8 @@ namespace VL.RunwayML
             public MyNode(ModelDescription description, NodeContext nodeContext) : base(nodeContext)
             {
                 this.description = description;
-                Inputs = description.Inputs.Select(p => new MyPin() { Name = LowercaseFirst(p.Name), Type = p.Type, Value = p.DefaultValue }).ToArray();
-                Outputs = description.Outputs.Select(p => new MyPin() { Name = LowercaseFirst(p.Name), Type = p.Type, Value = p.DefaultValue }).ToArray();
+                Inputs = description.Inputs.Select(p => new MyPin() { Name = p.Name, OriginalName = ((ModelPinDescription)p).OriginalName, Type = p.Type, Value = p.DefaultValue }).ToArray();
+                Outputs = description.Outputs.Select(p => new MyPin() { Name = p.Name, OriginalName = ((ModelPinDescription)p).OriginalName, Type = p.Type, Value = p.DefaultValue }).ToArray();
             }
 
             public IVLNodeDescription NodeDescription => description;
@@ -273,14 +271,14 @@ namespace VL.RunwayML
                     {
                         if (input.Type == typeof(IImage))
                         {
-                            inputs += "\"" + input.Name + "\": \"data:image/jpeg;base64,";
+                            inputs += "\"" + input.OriginalName + "\": \"data:image/jpeg;base64,";
                             var skImage = Imaging.FromImage((IImage)input.Value, false);
                             var jpg = skImage.Encode(SKEncodedImageFormat.Jpeg, 100).ToArray();
                             var base64 = Convert.ToBase64String(jpg);
                             inputs += base64 + "\", ";
                         }
                         else
-                            inputs += "\"" + input.Name + "\": " + GetValue(input.Value.ToString()) + ", ";
+                            inputs += "\"" + input.OriginalName + "\": " + GetValue(input.Value.ToString()) + ", ";
                     }
                     inputs = inputs.TrimEnd(new char[2]{ ',', ' '}) + "}";
                     var data = Encoding.UTF8.GetBytes(inputs);
@@ -297,14 +295,14 @@ namespace VL.RunwayML
                     foreach (var output in Outputs.Cast<MyPin>())
                     {
                         if (output.Type == typeof(string))
-                            output.Value = model[output.Name].ToString();
+                            output.Value = model[output.OriginalName].ToString();
                         else if (output.Type == typeof(int))
-                            output.Value = (int)model[output.Name];
+                            output.Value = (int)model[output.OriginalName];
                         else if (output.Type == typeof(float))
-                            output.Value = (float)model[output.Name];
+                            output.Value = (float)model[output.OriginalName];
                         else if (output.Type == typeof(IImage))
                         {
-                            string result = model[output.Name].ToString();
+                            string result = model[output.OriginalName].ToString();
                             var base64 = result.Split(',').LastOrDefault();
                             var jpg = Convert.FromBase64String(base64);
                             var skImage = SKImage.FromEncodedData(jpg);
