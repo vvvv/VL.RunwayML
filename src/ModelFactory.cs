@@ -353,6 +353,8 @@ namespace VL.RunwayML
                     return v;
                 else if (float.TryParse(v, out float f))
                     return v;
+                else if (bool.TryParse(v, out bool b))
+                    return v.ToLower();
                 else //string
                     return "\"" + v + "\"";
             }
