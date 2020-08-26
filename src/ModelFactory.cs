@@ -15,6 +15,7 @@ using VL.Lib.Basics.Imaging;
 using VL.Lang.PublicAPI;
 using VL.Skia;
 using SkiaSharp;
+using VL.Lib.Collections;
 
 // Tells VL what node factory to instantiate. A VL file referencing this assembly will have access to the nodes returned by the factory.
 [assembly: NodeFactory(typeof(RunwayMLFactory))]
@@ -175,7 +176,7 @@ namespace VL.RunwayML
                 }
                 else if (pin.type == "vector")
                 {
-                    type = typeof(float[]);
+                    type = typeof(Spread<float>);
                     dflt = Enumerable.Repeat<float>(0, (int)pin.length).ToArray();
                 }
                 else if (pin.type == "image")
@@ -261,7 +262,7 @@ namespace VL.RunwayML
 
             public void Update()
             {
-                if (Inputs.None())
+                if (!Inputs.Any())
                     return;
 
                 if ((bool)Inputs.Last().Value)
@@ -282,9 +283,9 @@ namespace VL.RunwayML
                             var base64 = Convert.ToBase64String(jpg);
                             inputs += base64 + "\", ";
                         }
-                        else if (input.Type == typeof(float[]))
+                        else if (input.Type == typeof(Spread<float>))
                         {
-                            var v = (float[])input.Value;
+                            var v = (Spread<float>)input.Value;
                             inputs += "\"" + input.OriginalName + "\": [" + string.Join(", ", v) + "], ";
                         }
                         else
