@@ -82,6 +82,7 @@ namespace VL.RunwayML
             bool notFound;
 
             string Url;
+            string FullName;
             string InfoUrl => Url + "info";
             public string QueryUrl => Url + "query";
             public string Token;
@@ -91,7 +92,8 @@ namespace VL.RunwayML
             public ModelDescription(IVLNodeDescriptionFactory factory, string name, string url, string token)
             {
                 Factory = factory;
-                Name = name;
+                FullName = name;
+                Name = name.Split('/').Last();
                 Url = url;
                 Token = token;
             }
@@ -230,7 +232,7 @@ namespace VL.RunwayML
 
             public bool OpenEditor()
             {
-                Process.Start("https://app.runwayml.com/models/" + Name);
+                Process.Start("https://app.runwayml.com/models/" + FullName);
                 return true;
             }
         }
@@ -283,7 +285,7 @@ namespace VL.RunwayML
                             var base64 = Convert.ToBase64String(jpg);
                             inputs += base64 + "\", ";
                         }
-                        else if (input.Type == typeof(Spread<float>))
+                        else if (input.Type == typeof(Spread<float>)) //vector
                         {
                             var v = (Spread<float>)input.Value;
                             inputs += "\"" + input.OriginalName + "\": [" + string.Join(", ", v) + "], ";
