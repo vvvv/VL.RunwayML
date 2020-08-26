@@ -173,6 +173,11 @@ namespace VL.RunwayML
                     if (bool.TryParse(pin.@default.ToString(), out d))
                         dflt = d;
                 }
+                else if (pin.type == "vector")
+                {
+                    type = typeof(float[]);
+                    dflt = Enumerable.Repeat<float>(0, (int)pin.length).ToArray();
+                }
                 else if (pin.type == "image")
                 {
                     type = typeof(IImage);
@@ -277,6 +282,11 @@ namespace VL.RunwayML
                             var base64 = Convert.ToBase64String(jpg);
                             inputs += base64 + "\", ";
                         }
+                        else if (input.Type == typeof(float[]))
+                        {
+                            var v = (float[])input.Value;
+                            inputs += "\"" + input.OriginalName + "\": [" + string.Join(", ", v) + "], ";
+                        }
                         else
                             inputs += "\"" + input.OriginalName + "\": " + GetValue(input.Value.ToString()) + ", ";
                     }
@@ -318,7 +328,7 @@ namespace VL.RunwayML
                     return v;
                 else if (float.TryParse(v, out float f))
                     return v;
-                else
+                else //string
                     return "\"" + v + "\"";
             }
 
