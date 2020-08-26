@@ -16,6 +16,7 @@ using VL.Lang.PublicAPI;
 using VL.Skia;
 using SkiaSharp;
 using VL.Lib.Collections;
+using Stride.Core.Mathematics;
 
 // Tells VL what node factory to instantiate. A VL file referencing this assembly will have access to the nodes returned by the factory.
 [assembly: NodeFactory(typeof(RunwayMLFactory))]
@@ -181,6 +182,14 @@ namespace VL.RunwayML
                     type = typeof(Spread<float>);
                     dflt = Enumerable.Repeat<float>(0, (int)pin.length).ToArray();
                 }
+                else if (pin.type == "array")
+                {
+                    if (pin.itemType.type == "image_bounding_box")
+                        type = typeof(IEnumerable<RectangleF>);
+                    else
+                        type = typeof(Spread<Spread<float>>);
+                    //dflt = Enumerable.Repeat<float>(0, (int)pin.length).ToArray();
+                }
                 else if (pin.type == "image")
                 {
                     type = typeof(IImage);
@@ -313,6 +322,19 @@ namespace VL.RunwayML
                             output.Value = (int)model[output.OriginalName];
                         else if (output.Type == typeof(float))
                             output.Value = (float)model[output.OriginalName];
+                        else if (output.Type == typeof(IEnumerable<RectangleF>)) //array
+                        {
+                            var rects = new List<RectangleF>();
+                            foreach (var rect in model[output.OriginalName])
+                            {
+                                var x = (float)rect[0];
+                                var y = (float)rect[1];
+                                var width = (float)rect[2] - x;
+                                var height = (float)rect[3] - y;
+                                rects.Add(new RectangleF(x, y, width, height));
+                            }
+                            output.Value = (IEnumerable<RectangleF>)rects;
+                        }
                         else if (output.Type == typeof(IImage))
                         {
                             string result = model[output.OriginalName].ToString();
