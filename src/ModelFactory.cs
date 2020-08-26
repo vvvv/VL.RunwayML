@@ -182,12 +182,15 @@ namespace VL.RunwayML
                     type = typeof(Spread<float>);
                     dflt = Enumerable.Repeat<float>(0, (int)pin.length).ToArray();
                 }
-                else if (pin.type == "array")
+                else if (pin.type == "array") //assumes outputs for now
                 {
-                    if (pin.itemType.type == "image_bounding_box")
+                    if (pin.itemType.type == "text")
+                        type = typeof(IEnumerable<string>);
+                    else if (pin.itemType.type == "number")
+                        type = typeof(IEnumerable<float>);
+                    else if (pin.itemType.type == "image_bounding_box")
                         type = typeof(IEnumerable<RectangleF>);
-                    else
-                        type = typeof(Spread<Spread<float>>);
+
                     //dflt = Enumerable.Repeat<float>(0, (int)pin.length).ToArray();
                 }
                 else if (pin.type == "image")
@@ -228,7 +231,7 @@ namespace VL.RunwayML
                 get
                 {
                     if (notFound)
-                        yield return new Message(MessageType.Warning, "Not found: " + Url);
+                        yield return new Message(MessageType.Warning, "Model inactive: " + Url + "\r\nActivate in your RunwayML dashboard.");
                     else
                         yield break;
                 }
@@ -334,6 +337,20 @@ namespace VL.RunwayML
                                 rects.Add(new RectangleF(x, y, width, height));
                             }
                             output.Value = (IEnumerable<RectangleF>)rects;
+                        }
+                        else if (output.Type == typeof(IEnumerable<float>))
+                        {
+                            var floats = new List<float>();
+                            foreach (var f in model[output.OriginalName])
+                                floats.Add((float)f);
+                            output.Value = (IEnumerable<float>)floats;
+                        }
+                        else if (output.Type == typeof(IEnumerable<string>))
+                        {
+                            var texts = new List<string>();
+                            foreach (var t in model[output.OriginalName])
+                                texts.Add((string)t);
+                            output.Value = (IEnumerable<string>)texts;
                         }
                         else if (output.Type == typeof(IImage))
                         {
