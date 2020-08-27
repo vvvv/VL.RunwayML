@@ -1,0 +1,29 @@
+# on push on master
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - README.md
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - name: Git Checkout
+      uses: actions/checkout@master
+    
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.0
+
+    - name: Setup Nuget.exe
+      uses: nuget/setup-nuget@v1
+      
+    - name: Publish VL Nuget
+      uses: vvvv/PublishVLNuget@1.0.27
+      with:
+        csproj: src/VL.RunwayML.csproj
+        nuspec: deployment/VL.RunwayML.nuspec
+        icon-src: https://raw.githubusercontent.com/vvvv/PublicContent/master/nugeticon.png
+        icon-dst: nugeticon.png
+        nuget-key: ${{ secrets.NUGET_KEY }}
