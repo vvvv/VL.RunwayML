@@ -7,7 +7,7 @@ Download: http://visualprogramming.net
 ## Using the library
 For now requires a vvvv gamma 2020.2-preview build which you can get [from here](https://teamcity.vvvv.org/). Login as guest.
 
-In your user vvvv gamma documents folder put a file named runway.txt:
+In your user vvvv gamma documents folder put a file named `runway.txt`:
 
     Documents\vvvv\gamma\runway.txt
 	
