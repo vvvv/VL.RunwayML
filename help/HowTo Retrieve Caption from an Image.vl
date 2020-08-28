@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document xmlns:p="property" Id="DmhgJBn6xLXObDMXHBjvoY" LanguageVersion="2020.2.0.202" Version="0.128">
+  <NugetDependency Id="RPL6uI7z4cLOG5alMTsByg" Location="VL.CoreLib" Version="2020.2.0-0202-ge5ff990162" />
+  <Patch Id="K7G7ntNodXPQKHmL5dSQa0">
+    <Canvas Id="DY5OxlXqUd2Ma6W92VH6vA" DefaultCategory="Main" BordersChecked="false" CanvasType="FullCategory" />
+    <!--
+
+    ************************ Application ************************
+
+-->
+    <Node Name="Application" Bounds="100,100" Id="JVGEDcL7JIgPen1QT9atUk">
+      <p:NodeReference>
+        <Choice Kind="ContainerDefinition" Name="Process" />
+        <FullNameCategoryReference ID="Primitive" />
+      </p:NodeReference>
+      <Patch Id="GRZ7X8IlxOKNaVKthAEMlr">
+        <Canvas Id="QFkmfjWUPtHMezX3Prf4tu" CanvasType="Group">
+          <Node Bounds="124,491,47,19" Id="ObyjRcir7R5LxuBEzpXKF2">
+            <p:NodeReference LastCategoryFullName="ML.RunwayML" LastSymbolSource="VL.RunwayML.dll">
+              <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+              <Choice Kind="ProcessNode" Name="im2txt" />
+            </p:NodeReference>
+            <p:HelpFocus p:Assembly="VL.Lang" p:Type="VL.Model.HelpPriority">High</p:HelpFocus>
+            <Pin Id="Avz92pv0KMNQKBoikVDQ6V" Name="Image" Kind="InputPin" />
+            <Pin Id="JeWq6tP8V1xOp7oxWgjNLk" Name="Query" Kind="InputPin" />
+            <Pin Id="EyPbio086lHPPas9BGdD9P" Name="Caption" Kind="OutputPin" />
+          </Node>
+          <Node Bounds="124,356,75,19" Id="MExVbg54CJAM1Wc5gZFiAj">
+            <p:NodeReference LastCategoryFullName="Graphics.Skia.IO" LastSymbolSource="VL.Skia.vl">
+              <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+              <Choice Kind="ProcessAppFlag" Name="ImageReader" />
+            </p:NodeReference>
+            <Pin Id="QMaHA2fLRsEOZbKVGAedJN" Name="Filename" Kind="InputPin" DefaultValue="assets\margaret_hamilton.jpg">
+              <p:TypeAnnotation LastCategoryFullName="IO" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="Path" />
+              </p:TypeAnnotation>
+            </Pin>
+            <Pin Id="CfbfsaPCqWwLvBH3i4DcPh" Name="Load" Kind="InputPin" />
+            <Pin Id="JxlIU9DlcOQQZHt7BmKHyu" Name="Output" Kind="OutputPin" />
+          </Node>
+          <Node Bounds="124,401,56,26" Id="QSB3NBEaOdAQUPkv0zI4tx">
+            <p:NodeReference LastCategoryFullName="Graphics.Skia.Imaging" LastSymbolSource="VL.Skia.vl">
+              <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+              <Choice Kind="OperationCallFlag" Name="ToImage" />
+              <CategoryReference Kind="Category" Name="Imaging" NeedsToBeDirectParent="true">
+                <p:OuterCategoryReference Kind="Category" Name="Skia" NeedsToBeDirectParent="true" />
+              </CategoryReference>
+            </p:NodeReference>
+            <Pin Id="BVRnZiXs11HMj1OrD6zySk" Name="Input" Kind="InputPin" />
+            <Pin Id="EEgktJ3FBgeNOyeVvvVds5" Name="Result" Kind="OutputPin" />
+          </Node>
+          <Pad Id="Q1VVqn54zOnOqlPgSStQqk" Comment="Query" Bounds="168,452,35,35" ShowValueBox="true" isIOBox="true" Value="False">
+            <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+              <Choice Kind="TypeFlag" Name="Boolean" />
+            </p:TypeAnnotation>
+            <p:ValueBoxSettings>
+              <p:buttonmode p:Assembly="VL.UI.Forms" p:Type="VL.HDE.PatchEditor.Editors.ButtonModeEnum">Bang</p:buttonmode>
+              <p:showvalue p:Type="Boolean">false</p:showvalue>
+            </p:ValueBoxSettings>
+          </Pad>
+          <Pad Id="A30R3u1OR0JLTekoaEWjX7" Comment="Caption" Bounds="126,543,130,47" ShowValueBox="true" isIOBox="true" />
+          <Pad Id="QS9JFRXuGXBNxv8iOavEIy" Bounds="126,242,232,61" ShowValueBox="true" isIOBox="true" Value="Seeing red nodes? Check the Prerequisites help patch in the help browser.">
+            <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+              <Choice Kind="TypeFlag" Name="String" />
+            </p:TypeAnnotation>
+            <p:ValueBoxSettings>
+              <p:fontsize p:Type="Int32">9</p:fontsize>
+              <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+            </p:ValueBoxSettings>
+          </Pad>
+          <Overlay Id="JKIZHP2nAgHPZH7jnQk0Cs" Name="" Bounds="121,216,261,93">
+            <p:ColorIndex p:Type="Int32">1</p:ColorIndex>
+          </Overlay>
+        </Canvas>
+        <Patch Id="MGlTkX5FgLaPx4MPvrUdor" Name="Create" />
+        <Patch Id="JQnyJkSDYZZPGPm8vemFfz" Name="Update" />
+        <ProcessDefinition Id="HOMIfM3g4XiQMDggRmQQvt">
+          <Fragment Id="CxQU03cD8GYLU26yEbXwNU" Patch="MGlTkX5FgLaPx4MPvrUdor" Enabled="true" />
+          <Fragment Id="BOkeLfftxlpMJquvEtwhlQ" Patch="JQnyJkSDYZZPGPm8vemFfz" Enabled="true" />
+        </ProcessDefinition>
+        <Link Id="H2KTdTVekxaQYp9nkrD5ti" Ids="JxlIU9DlcOQQZHt7BmKHyu,BVRnZiXs11HMj1OrD6zySk" />
+        <Link Id="KQ2IVkJCgbCM6wTFdlAgYu" Ids="EEgktJ3FBgeNOyeVvvVds5,Avz92pv0KMNQKBoikVDQ6V" />
+        <Link Id="L57lsC8wqRELU07XJvbGi2" Ids="Q1VVqn54zOnOqlPgSStQqk,JeWq6tP8V1xOp7oxWgjNLk" />
+        <Link Id="Gs98suJLaFtNiz6tOWnUs7" Ids="EyPbio086lHPPas9BGdD9P,A30R3u1OR0JLTekoaEWjX7" />
+      </Patch>
+    </Node>
+  </Patch>
+  <NugetDependency Id="NW6WDWfqYJaPofVjY6quwc" Location="VL.Skia" Version="2020.2.0-0202-ge5ff990162" />
+  <NugetDependency Id="Gq01VE9PYBVOHUZbudT2YT" Location="VL.RunwayML" Version="0.0.0.0" />
+</Document>
