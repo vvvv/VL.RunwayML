@@ -11,7 +11,7 @@ In order to use this library with VL you have to install the nuget that is avail
 
     nuget install VL.RunwayML -pre
 
-Once the VL.RunwayMLt nuget is installed and referenced in your VL document you'll see the category "RunwayML" under "ML" in the nodebrowser. 
+Once the VL.RunwayML nuget is installed and referenced in your VL document you'll see the category "RunwayML" under "ML" in the nodebrowser. 
 
 In your user vvvv gamma documents folder put a file named `runway.txt`:
 
