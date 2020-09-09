@@ -28,13 +28,22 @@ namespace VL.RunwayML
         public RunwayMLFactory()
         {
             var builder = ImmutableArray.CreateBuilder<IVLNodeDescription>();
-            var runway = File.ReadAllText(Path.Combine(Session.UserDocumentFolder, "runway.txt"));
+            var runway = File.ReadAllText(Path.Combine(Session.UserDocumentFolder, "runway-hosted.txt"));
 
             var hostedModels = runway.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var model in hostedModels)
             {
                 var infos = model.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToList();
                 builder.Add(new ModelDescription(this, infos[0], infos[1], infos[2]));
+            }
+
+            runway = File.ReadAllText(Path.Combine(Session.UserDocumentFolder, "runway-local.txt"));
+
+            var localModels = runway.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var model in localModels)
+            {
+                var infos = model.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToList();
+                builder.Add(new ModelDescription(this, infos[0], infos[1]));
             }
             NodeDescriptions = builder.ToImmutable();
         }
@@ -82,6 +91,7 @@ namespace VL.RunwayML
             bool initialized;
             bool notFound;
 
+            bool IsLocal;
             string Url;
             string FullName;
             string InfoUrl => Url + "info";
@@ -95,8 +105,17 @@ namespace VL.RunwayML
                 Factory = factory;
                 FullName = name;
                 Name = name.Split('/').Last();
-                Url = url;
+                Url = url.Trim('/') + '/';
                 Token = token;
+            }
+
+            public ModelDescription(IVLNodeDescriptionFactory factory, string name, string url)
+            {
+                Factory = factory;
+                FullName = name;
+                Name = name;
+                Url = url.Trim('/') + '/';
+                IsLocal = true;
             }
 
             void Init()
@@ -109,7 +128,8 @@ namespace VL.RunwayML
                     var httpRequest = (HttpWebRequest)WebRequest.CreateHttp(InfoUrl);
                     httpRequest.Accept = "application/json";
                     httpRequest.ContentType = "application/json";
-                    httpRequest.Headers.Add("Authorization", "Bearer " + Token);
+                    if (Token != "local")
+                        httpRequest.Headers.Add("Authorization", "Bearer " + Token);
                     var rstream = httpRequest.GetResponse().GetResponseStream();
                     string modelInfo = "";
                     using (var reader = new StreamReader(rstream, Encoding.UTF8, true, 0x1000, leaveOpen: true))
@@ -147,12 +167,12 @@ namespace VL.RunwayML
 
             void GetTypeAndDefault(dynamic pin, ref Type type, ref object dflt)
             {
-                if (pin.type == "text")
+                if (pin.type == "text" || pin.type == "dropdown")
                 {
                     type = typeof(string);
                     dflt = pin.@default.ToString();
                 }
-                else if (pin.type == "number")
+                else if (pin.type == "number" || pin.type == "slider")
                 {
                     int step;
                     if (int.TryParse(pin.step?.ToString() ?? pin.@default.ToString(), out step))
@@ -185,13 +205,25 @@ namespace VL.RunwayML
                 else if (pin.type == "array") //assumes outputs for now
                 {
                     if (pin.itemType.type == "text")
+                    {
+                        dflt = Enumerable.Repeat<string>("", 0).ToArray();
                         type = typeof(IEnumerable<string>);
+                    }
                     else if (pin.itemType.type == "number")
+                    {
+                        dflt = Enumerable.Repeat<float>(0, 0).ToArray();
                         type = typeof(IEnumerable<float>);
+                    }
                     else if (pin.itemType.type == "image_bounding_box")
+                    {
+                        dflt = Enumerable.Repeat<RectangleF>(RectangleF.Empty, 0).ToArray();
                         type = typeof(IEnumerable<RectangleF>);
-
-                    //dflt = Enumerable.Repeat<float>(0, (int)pin.length).ToArray();
+                    }
+                    else if (pin.itemType.type == "image_landmarks")
+                    {
+                        dflt = Enumerable.Repeat<IEnumerable<Vector2>>(Enumerable.Repeat<Vector2>(new Vector2(), 0), 0);
+                        type = typeof(IEnumerable<IEnumerable<Vector2>>);
+                    }
                 }
                 else if (pin.type == "image")
                 {
@@ -231,7 +263,7 @@ namespace VL.RunwayML
                 get
                 {
                     if (notFound)
-                        yield return new Message(MessageType.Warning, "Model inactive: " + Url + "\r\nActivate in your RunwayML dashboard.");
+                        yield return new Message(MessageType.Warning, "Model inactive: " + Url + "\r\nActivate it in your RunwayML dashboard and then restart vvvv.");
                     else
                         yield break;
                 }
@@ -244,7 +276,8 @@ namespace VL.RunwayML
 
             public bool OpenEditor()
             {
-                Process.Start("https://app.runwayml.com/models/" + FullName);
+                if (!IsLocal)
+                    Process.Start("https://app.runwayml.com/models/" + FullName);
                 return true;
             }
         }
@@ -359,6 +392,18 @@ namespace VL.RunwayML
                             var jpg = Convert.FromBase64String(base64);
                             var skImage = SKImage.FromEncodedData(jpg);
                             output.Value = Imaging.ToImage(skImage);
+                        }
+                        else if (output.Type == typeof(IEnumerable<IEnumerable<Vector2>>))
+                        {
+                            var landmarks = new List<List<Vector2>>();
+                            foreach (var lm in model[output.OriginalName])
+                            {
+                                var points = new List<Vector2>();
+                                foreach (var p in lm)
+                                    points.Add(new Vector2((float)p[0], (float)p[1]));
+                                landmarks.Add(points);
+                            }
+                            output.Value = landmarks;
                         }
                     }
                 }

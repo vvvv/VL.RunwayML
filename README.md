@@ -1,5 +1,5 @@
 # VL.RunwayML
-Use [RunwayML](http://runwayml.com) [hosted models](https://learn.runwayml.com/#/how-to/hosted-models) as nodes in VL.
+Use [RunwayML](http://runwayml.com) models as nodes in VL.
 
 Try it with vvvv, the visual live-programming environment for .NET  
 Download: http://visualprogramming.net
@@ -13,14 +13,20 @@ In order to use this library with VL you have to install the nuget that is avail
 
 Once the VL.RunwayML nuget is installed and referenced in your VL document you'll see the category "RunwayML" under "ML" in the nodebrowser. 
 
-In your user vvvv gamma documents folder put a file named `runway.txt`:
+In your user vvvv gamma documents folder put two files:
 
-    Documents\vvvv\gamma\runway.txt
+    Documents\vvvv\gamma\runway-hosted.txt
+    Documents\vvvv\gamma\runway-local.txt
 	
-In the file you define one of your hosted models per line (model name, url, token), like: 
+	
+In `runway-hosted.txt` you can define multiple [hosted models](https://learn.runwayml.com/#/how-to/hosted-models). on per line (model name, url, token), like: 
 
     runway/DenseDepth, https://densedepth-636803eb.hosted-models.runwayml.cloud/v1/, 000000000000==
-    
-Those will then be available as nodes in the `ML.RunwayML` category.
+
+In `runway-local.txt` you can define multiple models that you run via the locally installed RunwayML application. on per line (model name, url), like: 
+
+    PoseNet, http://localhost:8000
+
+Both local and hosted models will then be available as nodes in the `ML.RunwayML` category.
 
 Demos are available via the Help Browser!
