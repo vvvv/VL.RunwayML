@@ -360,11 +360,6 @@
             <Pin Id="Qi7pFeWvI2xPispZPmFUxq" Name="Clear" Kind="OutputPin" Bounds="901,644" />
             <Pin Id="IBsWgAYLIlLOB4XXbtOerx" Name="Process" Kind="OutputPin" Bounds="1039,606" />
           </Patch>
-          <!--
-
-    ************************  ************************
-
--->
           <ProcessDefinition Id="GtxADVjinOLOR3lEtcBFFM">
             <Fragment Id="PEORteGhg7pMgi2qSZCaGq" Patch="RfsrBuzEpnfPwx23xdiJvS" Enabled="true" />
             <Fragment Id="UoXlCcLzlhiQABF3m1da6W" Patch="ApSzliSawDEPYOs8pNmdag" Enabled="true" />
@@ -540,11 +535,6 @@
             <Pin Id="I7pB4vNZgQ4ODu0qNU72p6" Name="Label" Kind="OutputPin" Bounds="240,520" />
             <Pin Id="KcEHjewXV2QLM3lOU6Ci9Z" Name="Color" Kind="OutputPin" Bounds="300,520" />
           </Patch>
-          <!--
-
-    ************************  ************************
-
--->
           <ProcessDefinition Id="Cd7kLsLmzC9OKecJnZUk3F">
             <Fragment Id="AjsqIhen5P7MtrKeUfPi7Z" Patch="VWEoVpLzZTUPZv3KBl1PTB" Enabled="true" />
             <Fragment Id="U5OrZT2EvIBOS9M78KU0CS" Patch="J8OLMsfnDe6M8FRjrJTAl3" Enabled="true" />
@@ -878,11 +868,6 @@
             </Pin>
             <Pin Id="RhXjgiwmCqKL1Ee3NIDT0p" Name="Output" Kind="OutputPin" Bounds="463,566" />
           </Patch>
-          <!--
-
-    ************************  ************************
-
--->
           <ProcessDefinition Id="BNdyqsin3CCMn2Ks2id2Ey">
             <Fragment Id="DfPSBdegdFcNykmqFEmR0O" Patch="Ks5I5VRLanbMhldbZ4CmZ6" Enabled="true" />
             <Fragment Id="HyAOWJ4CUlyPFLY43abmEi" Patch="KScPHW9qT1rLLBLiKnvDg9" Enabled="true" />
@@ -1327,11 +1312,6 @@
             <Pin Id="PAGHVA1OrMWPJzC9rbhg21" Name="Layer" Kind="OutputPin" Bounds="456,846" />
             <Pin Id="LZV3DiG4iZOMo9NMUGY6GY" Name="Image" Kind="OutputPin" Bounds="374,1128" />
           </Patch>
-          <!--
-
-    ************************  ************************
-
--->
           <ProcessDefinition Id="SDL21l36lB3OW4msiZugdo">
             <Fragment Id="Jrs3FqXHa2bOqFyTpDnOOZ" Patch="I4cPHI3GR8ANGzJ6RClu0I" Enabled="true" />
             <Fragment Id="Is9j7jgTQwmPzm6HOlhB3u" Patch="U416m778W9zQQtmHuyBngi" Enabled="true" />
@@ -1457,11 +1437,6 @@
             <Pin Id="F9xta3qziKuOr1G6rKxttr" Name="Points" Kind="InputPin" />
             <Pin Id="KKTbaomoiO6P9Z0jIDpe6M" Name="Size" Kind="InputPin" />
           </Patch>
-          <!--
-
-    ************************  ************************
-
--->
           <ProcessDefinition Id="KeTSvOeucmsLpHV1OkYFdR" IsHidden="true">
             <Fragment Id="EV59f2LSppWNYeIQpQ3Y6X" Patch="PCOIh6GU9KkMW5TmijFmpn" Enabled="true" />
             <Fragment Id="NeiNLifdGNCPZaqw4tsi5w" Patch="TZiEoJbRStZPS7JTXjMkb7" />
@@ -1534,7 +1509,7 @@
               <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
               <Choice Kind="ProcessAppFlag" Name="Renderer" />
             </p:NodeReference>
-            <Pin Id="PPKu1SxQcRnQHBP3hjGoIZ" Name="Bounds" Kind="InputPin" DefaultValue="1027, 56, 676, 946">
+            <Pin Id="PPKu1SxQcRnQHBP3hjGoIZ" Name="Bounds" Kind="InputPin" DefaultValue="1021, 17, 671, 945">
               <p:TypeAnnotation LastCategoryFullName="System.Drawing" LastSymbolSource="System.Drawing.dll">
                 <Choice Kind="TypeFlag" Name="Rectangle" />
               </p:TypeAnnotation>
@@ -1547,7 +1522,7 @@
             <Pin Id="RapBy9EAldTNww6YTVZbGv" Name="Input" Kind="InputPin" />
             <Pin Id="O5tLDXOLx8UK9d5wmdtyaC" Name="Color" Kind="InputPin" />
             <Pin Id="QRZNfWUUWYAPgbiQBRRIhZ" Name="Clear" Kind="InputPin" />
-            <Pin Id="RRUGeApilHDN0QbZvGKG8W" Name="Space" Kind="InputPin" DefaultValue="PixelTopLeft">
+            <Pin Id="RRUGeApilHDN0QbZvGKG8W" Name="Space" Kind="InputPin" DefaultValue="DIPTopLeft">
               <p:TypeAnnotation LastCategoryFullName="VL.Skia" LastSymbolSource="VL.Skia.dll">
                 <Choice Kind="TypeFlag" Name="CommonSpace" />
               </p:TypeAnnotation>
@@ -1595,11 +1570,6 @@
         </Canvas>
         <Patch Id="SlbJWYDoAuvNQDiVa2xPCY" Name="Create" />
         <Patch Id="KbMcipiIsiZPnmMZdVErRH" Name="Update" />
-        <!--
-
-    ************************  ************************
-
--->
         <ProcessDefinition Id="OJqwREsnwVkOc2fZB9q79w">
           <Fragment Id="IDNrJMFnsqMNk0JVzmkxQn" Patch="SlbJWYDoAuvNQDiVa2xPCY" Enabled="true" />
           <Fragment Id="NArwFXekG6JPTJsiQ3L6ks" Patch="KbMcipiIsiZPnmMZdVErRH" Enabled="true" />
@@ -1615,4 +1585,5 @@
   </Patch>
   <NugetDependency Id="BKUFZiFGQFwNemZdF4dcFl" Location="VL.Skia" Version="2020.2.0-0218-ga8106f90dc" />
   <NugetDependency Id="HiV8d5fCKIvMVTnooEDWxA" Location="VL.Elementa" Version="0.0.0.0" />
+  <NugetDependency Id="Gj3fnk77TBpLFxKBt4cI0Y" Location="VL.RunwayML" Version="0.0.0.0" />
 </Document>
