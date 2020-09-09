@@ -128,7 +128,7 @@ namespace VL.RunwayML
                     var httpRequest = (HttpWebRequest)WebRequest.CreateHttp(InfoUrl);
                     httpRequest.Accept = "application/json";
                     httpRequest.ContentType = "application/json";
-                    if (Token != "local")
+                    if (!string.IsNullOrWhiteSpace(Token))
                         httpRequest.Headers.Add("Authorization", "Bearer " + Token);
                     var rstream = httpRequest.GetResponse().GetResponseStream();
                     string modelInfo = "";
@@ -167,7 +167,7 @@ namespace VL.RunwayML
 
             void GetTypeAndDefault(dynamic pin, ref Type type, ref object dflt)
             {
-                if (pin.type == "text" || pin.type == "dropdown")
+                if (pin.type == "text" || pin.type == "dropdown" || pin.type == "category")
                 {
                     type = typeof(string);
                     dflt = pin.@default.ToString();
@@ -318,7 +318,8 @@ namespace VL.RunwayML
                     httpRequest.Method = "POST";
                     httpRequest.Accept = "application/json";
                     httpRequest.ContentType = "application/json";
-                    httpRequest.Headers.Add("Authorization", "Bearer " + description.Token);
+                    if (!string.IsNullOrWhiteSpace(description.Token))
+                        httpRequest.Headers.Add("Authorization", "Bearer " + description.Token);
                     var inputs = "{";
                     foreach (var input in Inputs.Cast<MyPin>().SkipLast(1))
                     {
