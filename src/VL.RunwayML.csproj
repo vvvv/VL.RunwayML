@@ -9,7 +9,7 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Reflection" Version="4.3.0" />
-    <PackageReference Include="VL.Skia" Version="2020.2.0-0217-g78b13ed816" />
+    <PackageReference Include="VL.Skia" Version="2020.2.0-0230-g7bbb4ede63" />
   </ItemGroup>
 
 </Project>

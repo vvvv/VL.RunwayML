@@ -52,7 +52,7 @@ namespace VL.RunwayML
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        class ModelPinDescription : IVLPinDescription
+        class ModelPinDescription : IVLPinDescription, IInfo
         {
             static string BeautifyPin(string s)
             {
@@ -72,55 +72,53 @@ namespace VL.RunwayML
                 return result.Trim();
             }
 
-            public ModelPinDescription(string name, Type type, object defaultValue)
+            public ModelPinDescription(string name, Type type, object defaultValue, string description)
             {
                 Name = BeautifyPin(name);
                 OriginalName = name;
                 Type = type;
                 DefaultValue = defaultValue;
+                Summary = description;
             }
 
             public string Name { get; }
             public string OriginalName { get; }
             public Type Type { get; }
             public object DefaultValue { get; }
+
+            public string Summary { get; }
+
+            public string Remarks => "";
         }
 
-        class ModelDescription : IVLNodeDescription
+        class ModelDescription : IVLNodeDescription, IInfo
         {
-            bool initialized;
-            bool notFound;
-
-            bool IsLocal;
-            string Url;
-            string FullName;
-            string InfoUrl => Url + "info";
-            public string QueryUrl => Url + "query";
-            public string Token;
+            bool FInitialized;
+            bool FNotFound;
+            bool FIsLocal;
+            
+            string FUrl;
+            string FFullName;
+            string FSummary;
+            public string FToken;
+            string InfoUrl => FUrl + "info";
+            public string QueryUrl => FUrl + "query";
             List<ModelPinDescription> inputs = new List<ModelPinDescription>();
             List<ModelPinDescription> outputs = new List<ModelPinDescription>();
 
-            public ModelDescription(IVLNodeDescriptionFactory factory, string name, string url, string token)
+            public ModelDescription(IVLNodeDescriptionFactory factory, string name, string url, string token = "")
             {
                 Factory = factory;
-                FullName = name;
+                FFullName = name;
                 Name = name.Split('/').Last();
-                Url = url.Trim('/') + '/';
-                Token = token;
-            }
-
-            public ModelDescription(IVLNodeDescriptionFactory factory, string name, string url)
-            {
-                Factory = factory;
-                FullName = name;
-                Name = name;
-                Url = url.Trim('/') + '/';
-                IsLocal = true;
+                FUrl = url.Trim('/') + '/';
+                FToken = token;
+                FIsLocal = string.IsNullOrWhiteSpace(token) ? true : false;
             }
 
             void Init()
             {
-                if (initialized)
+                if (FInitialized)
                     return;
 
                 try
@@ -128,8 +126,8 @@ namespace VL.RunwayML
                     var httpRequest = (HttpWebRequest)WebRequest.CreateHttp(InfoUrl);
                     httpRequest.Accept = "application/json";
                     httpRequest.ContentType = "application/json";
-                    if (!string.IsNullOrWhiteSpace(Token))
-                        httpRequest.Headers.Add("Authorization", "Bearer " + Token);
+                    if (!string.IsNullOrWhiteSpace(FToken))
+                        httpRequest.Headers.Add("Authorization", "Bearer " + FToken);
                     var rstream = httpRequest.GetResponse().GetResponseStream();
                     string modelInfo = "";
                     using (var reader = new StreamReader(rstream, Encoding.UTF8, true, 0x1000, leaveOpen: true))
@@ -138,35 +136,40 @@ namespace VL.RunwayML
                     }
                     dynamic model = JsonConvert.DeserializeObject(modelInfo);
 
+                    FSummary = model.description;
+
                     Type type = typeof(object);
                     object dflt = "";
                     string name = "";
+                    string desc = "";
                     foreach (var input in model.inputs)
                     {
-                        GetTypeAndDefault(input, ref type, ref dflt);
-                        inputs.Add(new ModelPinDescription(input.name.ToString(), type, dflt));
+                        GetTypeDefaultAndDescription(input, ref type, ref dflt, ref desc);
+                        inputs.Add(new ModelPinDescription(input.name.ToString(), type, dflt, desc));
                     }
 
-                    inputs.Add(new ModelPinDescription("Query", typeof(bool), false));
+                    inputs.Add(new ModelPinDescription("Query", typeof(bool), false, "Sends a query every frame as long as enabled"));
 
                     foreach (var output in model.outputs)
                     {
-                        GetTypeAndDefault(output, ref type, ref dflt);
-                        outputs.Add(new ModelPinDescription(output.name.ToString(), type, dflt));
+                        GetTypeDefaultAndDescription(output, ref type, ref dflt, ref desc);
+                        outputs.Add(new ModelPinDescription(output.name.ToString(), type, dflt, desc));
                     }
 
-                    initialized = true;
-                    notFound = false;
+                    FInitialized = true;
+                    FNotFound = false;
                 }
                 catch (Exception e)
                 {
                     if (e.Message.Contains("(404)"))
-                        notFound = true;
+                        FNotFound = true;
                 }
             }
 
-            void GetTypeAndDefault(dynamic pin, ref Type type, ref object dflt)
+            void GetTypeDefaultAndDescription(dynamic pin, ref Type type, ref object dflt, ref string desc)
             {
+                desc = pin.description;
+
                 if (pin.type == "text" || pin.type == "dropdown" || pin.type == "category")
                 {
                     type = typeof(string);
@@ -189,6 +192,8 @@ namespace VL.RunwayML
                         if (float.TryParse(pin.@default.ToString(), out d))
                             dflt = d;
                     }
+
+                    desc += "\r\nMin: " + pin.min + " Max: " + pin.max;
                 }
                 else if (pin.type == "boolean")
                 {
@@ -262,12 +267,16 @@ namespace VL.RunwayML
             {
                 get
                 {
-                    if (notFound)
-                        yield return new Message(MessageType.Warning, "Model inactive: " + Url + "\r\nActivate it in your RunwayML dashboard and then restart vvvv.");
+                    if (FNotFound)
+                        yield return new Message(MessageType.Warning, "Model inactive: " + FUrl + "\r\nActivate it in your RunwayML dashboard and then restart vvvv.");
                     else
                         yield break;
                 }
             }
+
+            public string Summary => FSummary;
+
+            public string Remarks => "";
 
             public IVLNode CreateInstance(NodeContext context)
             {
@@ -276,8 +285,8 @@ namespace VL.RunwayML
 
             public bool OpenEditor()
             {
-                if (!IsLocal)
-                    Process.Start("https://app.runwayml.com/models/" + FullName);
+                if (!FIsLocal)
+                    Process.Start("https://app.runwayml.com/models/" + FFullName);
                 return true;
             }
         }
@@ -318,8 +327,8 @@ namespace VL.RunwayML
                     httpRequest.Method = "POST";
                     httpRequest.Accept = "application/json";
                     httpRequest.ContentType = "application/json";
-                    if (!string.IsNullOrWhiteSpace(description.Token))
-                        httpRequest.Headers.Add("Authorization", "Bearer " + description.Token);
+                    if (!string.IsNullOrWhiteSpace(description.FToken))
+                        httpRequest.Headers.Add("Authorization", "Bearer " + description.FToken);
                     var inputs = "{";
                     foreach (var input in Inputs.Cast<MyPin>().SkipLast(1))
                     {
