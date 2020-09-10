@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" Id="UFhuJPSY6TINqqhvQ3Xd5H" LanguageVersion="2020.2.0.218" Version="0.128">
-  <NugetDependency Id="O0nH3NIUGsDNEYDpKkNdNl" Location="VL.CoreLib" Version="2020.2.0-0218-ga8106f90dc" />
+<Document xmlns:p="property" Id="UFhuJPSY6TINqqhvQ3Xd5H" LanguageVersion="2020.2.0.230" Version="0.128">
+  <NugetDependency Id="O0nH3NIUGsDNEYDpKkNdNl" Location="VL.CoreLib" Version="2020.2.0-0230-g7bbb4ede63" />
   <Patch Id="MzPky3idjkqOCpTZIYX0OG">
     <Canvas Id="MBEXZRye93zM2bkWIC9Vnl" DefaultCategory="Main" CanvasType="FullCategory">
       <!--
@@ -1167,8 +1167,7 @@
               </p:NodeReference>
               <Pin Id="NvPtIVPlnYwOLyVC897HHm" Name="Layer" Kind="InputPin" />
               <Pin Id="HB72qYvxQ6MLTd5S2c2v0M" Name="Color" Kind="InputPin" />
-              <Pin Id="LTsDZzQLeoYOZDy0i2KCwi" Name="Mouse" Kind="InputPin" />
-              <Pin Id="IDUELm5tODoL91opWd801U" Name="Keyboard" Kind="InputPin" />
+              <Pin Id="A8urBz0UuS3PAjPHqPvZmm" Name="Clear" Kind="InputPin" />
               <Pin Id="R1tL6veg7SENcNwANE3l1N" Name="Space" Kind="InputPin" DefaultValue="DIPTopLeft">
                 <p:TypeAnnotation LastCategoryFullName="VL.Skia" LastSymbolSource="VL.Skia.dll">
                   <Choice Kind="TypeFlag" Name="CommonSpace" />
@@ -1184,6 +1183,8 @@
                   <Choice Kind="TypeFlag" Name="Integer32" />
                 </p:TypeAnnotation>
               </Pin>
+              <Pin Id="LTsDZzQLeoYOZDy0i2KCwi" Name="Mouse" Kind="InputPin" />
+              <Pin Id="IDUELm5tODoL91opWd801U" Name="Keyboard" Kind="InputPin" />
               <Pin Id="QlecO3DSwBJP7XrcCEEqup" Name="Enabled" Kind="InputPin" />
               <Pin Id="GoEmlVecTR8PteksXRGDjj" Name="Result" Kind="OutputPin" />
             </Node>
@@ -1509,7 +1510,7 @@
               <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
               <Choice Kind="ProcessAppFlag" Name="Renderer" />
             </p:NodeReference>
-            <Pin Id="PPKu1SxQcRnQHBP3hjGoIZ" Name="Bounds" Kind="InputPin" DefaultValue="1021, 17, 671, 945">
+            <Pin Id="PPKu1SxQcRnQHBP3hjGoIZ" Name="Bounds" Kind="InputPin" DefaultValue="1020, 16, 670, 944">
               <p:TypeAnnotation LastCategoryFullName="System.Drawing" LastSymbolSource="System.Drawing.dll">
                 <Choice Kind="TypeFlag" Name="Rectangle" />
               </p:TypeAnnotation>
@@ -1546,7 +1547,7 @@
             <Pin Id="PIUYK7His16OZfwHXNCp5v" Name="Input 2" Kind="InputPin" />
             <Pin Id="FpIyRjsZ5KgPT5TFc2Bv6S" Name="Output" Kind="OutputPin" />
           </Node>
-          <Node Bounds="238,349,113,19" Id="OpujLnWjwktP9b2W9yQjA7">
+          <Node Bounds="238,349,54,19" Id="OpujLnWjwktP9b2W9yQjA7">
             <p:NodeReference LastCategoryFullName="Main" LastSymbolSource="Example SPADE Landscape.vl">
               <Choice Kind="ProcessNode" Name="UserInterface" />
             </p:NodeReference>
@@ -1567,6 +1568,18 @@
             <Pin Id="O0Y8yjkmkvoNJFxfT6Ov8q" Name="Layer" Kind="OutputPin" />
             <Pin Id="FcfCjKGqMOlLpHPpncz97g" Name="Image" Kind="OutputPin" />
           </Node>
+          <Node Bounds="332,469,103,19" Id="SEyJaOt93VpNsm6kmo3YNN">
+            <p:NodeReference LastCategoryFullName="ML.RunwayML" LastSymbolSource="VL.RunwayML.dll">
+              <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+              <CategoryReference Kind="Category" Name="ML" />
+              <CategoryReference Kind="Category" Name="RunwayML" />
+              <Choice Kind="ProcessNode" Name="SPADE-Landscapes" />
+            </p:NodeReference>
+            <Pin Id="LCIdBrxh0x5Nnd9GU6xpLT" Name="Semantic Map" Kind="InputPin" />
+            <Pin Id="NUuAukomKPzLT7Q9BOTsRL" Name="Query" Kind="InputPin" />
+            <Pin Id="LENpONNAoOUMkC5SJDKkLG" Name="Output" Kind="OutputPin" />
+          </Node>
+          <Pad Id="KPztY05KCUhMxB1g8xLs2u" Comment="" Bounds="334,519,25,15" ShowValueBox="true" isIOBox="true" />
         </Canvas>
         <Patch Id="SlbJWYDoAuvNQDiVa2xPCY" Name="Create" />
         <Patch Id="KbMcipiIsiZPnmMZdVErRH" Name="Update" />
@@ -1580,10 +1593,13 @@
         <Link Id="Rp6vJSToVviPoujAFUKuIX" Ids="TFysKuiYhPCMRf8vdsPvVQ,RkHXxucB7GuNt0QagvXkqi" />
         <Link Id="Bw6jLvQ5OvdOKqMKe0x7CL" Ids="O0Y8yjkmkvoNJFxfT6Ov8q,PIUYK7His16OZfwHXNCp5v" />
         <Link Id="ObAIzCiKIkZPc1oLBw1Gkp" Ids="Iih6kv2zMVgQRAhQI8R8y6,N5WAUBGz0cDMhsFDcm2YtT" />
+        <Link Id="T2YQRBLrpqBLxIO7osXHoM" Ids="RlfL0gwfX7gMxRM6UdbA1f,NUuAukomKPzLT7Q9BOTsRL" />
+        <Link Id="E2Xtd8Gbl5bLjeV3K37fFp" Ids="FcfCjKGqMOlLpHPpncz97g,LCIdBrxh0x5Nnd9GU6xpLT" />
+        <Link Id="KYX1fRmwMItNvgoZ3huEc2" Ids="LENpONNAoOUMkC5SJDKkLG,KPztY05KCUhMxB1g8xLs2u" />
       </Patch>
     </Node>
   </Patch>
-  <NugetDependency Id="BKUFZiFGQFwNemZdF4dcFl" Location="VL.Skia" Version="2020.2.0-0218-ga8106f90dc" />
+  <NugetDependency Id="BKUFZiFGQFwNemZdF4dcFl" Location="VL.Skia" Version="2020.2.0-0230-g7bbb4ede63" />
   <NugetDependency Id="HiV8d5fCKIvMVTnooEDWxA" Location="VL.Elementa" Version="0.0.0.0" />
   <NugetDependency Id="Gj3fnk77TBpLFxKBt4cI0Y" Location="VL.RunwayML" Version="0.0.0.0" />
 </Document>
