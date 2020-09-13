@@ -230,7 +230,7 @@ namespace VL.RunwayML
                         type = typeof(IEnumerable<IEnumerable<Vector2>>);
                     }
                 }
-                else if (pin.type == "image")
+                else if (pin.type == "image" || pin.type == "segmentation")
                 {
                     type = typeof(IImage);
                     dflt = null;
