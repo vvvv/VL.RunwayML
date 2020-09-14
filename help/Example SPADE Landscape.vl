@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" Id="UFhuJPSY6TINqqhvQ3Xd5H" LanguageVersion="2020.2.0.230" Version="0.128">
-  <NugetDependency Id="O0nH3NIUGsDNEYDpKkNdNl" Location="VL.CoreLib" Version="2020.2.0-0230-g7bbb4ede63" />
+<Document xmlns:p="property" Id="UFhuJPSY6TINqqhvQ3Xd5H" LanguageVersion="2020.2.0.234" Version="0.128">
+  <NugetDependency Id="O0nH3NIUGsDNEYDpKkNdNl" Location="VL.CoreLib" Version="2020.2.0-0234-gb6452d9aef" />
   <Patch Id="MzPky3idjkqOCpTZIYX0OG">
     <Canvas Id="MBEXZRye93zM2bkWIC9Vnl" DefaultCategory="Main" CanvasType="FullCategory">
       <!--
@@ -1510,7 +1510,7 @@
               <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
               <Choice Kind="ProcessAppFlag" Name="Renderer" />
             </p:NodeReference>
-            <Pin Id="PPKu1SxQcRnQHBP3hjGoIZ" Name="Bounds" Kind="InputPin" DefaultValue="1020, 16, 670, 944">
+            <Pin Id="PPKu1SxQcRnQHBP3hjGoIZ" Name="Bounds" Kind="InputPin" DefaultValue="1020, 16, 677, 944">
               <p:TypeAnnotation LastCategoryFullName="System.Drawing" LastSymbolSource="System.Drawing.dll">
                 <Choice Kind="TypeFlag" Name="Rectangle" />
               </p:TypeAnnotation>
@@ -1580,6 +1580,18 @@
             <Pin Id="LENpONNAoOUMkC5SJDKkLG" Name="Output" Kind="OutputPin" />
           </Node>
           <Pad Id="KPztY05KCUhMxB1g8xLs2u" Comment="" Bounds="334,519,25,15" ShowValueBox="true" isIOBox="true" />
+          <Pad Id="OM5geWwyhncOxCVH3OxxTo" Bounds="174,162,221,131" ShowValueBox="true" isIOBox="true" Value="Seeing red nodes? Check the Prerequisites help patch in the help browser.&#xD;&#xA;You need to install VL.Elementa to get this demo working. Simply install the VL.Elementa nuget from the command line to get it!">
+            <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+              <Choice Kind="TypeFlag" Name="String" />
+            </p:TypeAnnotation>
+            <p:ValueBoxSettings>
+              <p:fontsize p:Type="Int32">9</p:fontsize>
+              <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+            </p:ValueBoxSettings>
+          </Pad>
+          <Overlay Id="OdGvY5oYJlUQQgAyRrcCgW" Name="" Bounds="165,136,254,165">
+            <p:ColorIndex p:Type="Int32">1</p:ColorIndex>
+          </Overlay>
         </Canvas>
         <Patch Id="SlbJWYDoAuvNQDiVa2xPCY" Name="Create" />
         <Patch Id="KbMcipiIsiZPnmMZdVErRH" Name="Update" />
@@ -1599,7 +1611,7 @@
       </Patch>
     </Node>
   </Patch>
-  <NugetDependency Id="BKUFZiFGQFwNemZdF4dcFl" Location="VL.Skia" Version="2020.2.0-0230-g7bbb4ede63" />
+  <NugetDependency Id="BKUFZiFGQFwNemZdF4dcFl" Location="VL.Skia" Version="2020.2.0-0234-gb6452d9aef" />
   <NugetDependency Id="HiV8d5fCKIvMVTnooEDWxA" Location="VL.Elementa" Version="0.0.0.0" />
   <NugetDependency Id="Gj3fnk77TBpLFxKBt4cI0Y" Location="VL.RunwayML" Version="0.0.0.0" />
 </Document>
