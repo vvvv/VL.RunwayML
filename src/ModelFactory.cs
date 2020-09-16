@@ -28,23 +28,37 @@ namespace VL.RunwayML
         public RunwayMLFactory()
         {
             var builder = ImmutableArray.CreateBuilder<IVLNodeDescription>();
-            var runway = File.ReadAllText(Path.Combine(Session.UserDocumentFolder, "runway-hosted.txt"));
+            var runway = "";
 
-            var hostedModels = runway.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var model in hostedModels)
+            var runwayHostedPath = Path.Combine(Session.UserDocumentFolder, "runway-hosted.txt");
+            
+            // Does runway-hosted exist?
+            if(File.Exists(runwayHostedPath))
             {
-                var infos = model.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToList();
-                builder.Add(new ModelDescription(this, infos[0], infos[1], infos[2]));
+                runway = File.ReadAllText(runwayHostedPath);
+                var hostedModels = runway.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var model in hostedModels)
+                {
+                    var infos = model.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToList();
+                    builder.Add(new ModelDescription(this, infos[0], infos[1], infos[2]));
+                }
             }
 
-            runway = File.ReadAllText(Path.Combine(Session.UserDocumentFolder, "runway-local.txt"));
-
-            var localModels = runway.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var model in localModels)
+            var runwayLocalPath = Path.Combine(Session.UserDocumentFolder, "runway-local.txt");
+            
+            // Does runway-local exist?
+            if(File.Exists(runwayLocalPath))
             {
-                var infos = model.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToList();
-                builder.Add(new ModelDescription(this, infos[0], infos[1]));
+                runway = File.ReadAllText(runwayLocalPath);
+
+                var localModels = runway.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var model in localModels)
+                {
+                    var infos = model.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToList();
+                    builder.Add(new ModelDescription(this, infos[0], infos[1]));
+                }
             }
+
             NodeDescriptions = builder.ToImmutable();
         }
 
