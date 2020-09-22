@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" Id="DmhgJBn6xLXObDMXHBjvoY" LanguageVersion="2020.2.0.202" Version="0.128">
-  <NugetDependency Id="RPL6uI7z4cLOG5alMTsByg" Location="VL.CoreLib" Version="2020.2.0-0202-ge5ff990162" />
+<Document xmlns:p="property" Id="DmhgJBn6xLXObDMXHBjvoY" LanguageVersion="2020.2.0.269" Version="0.128">
+  <NugetDependency Id="RPL6uI7z4cLOG5alMTsByg" Location="VL.CoreLib" Version="2020.2.0" />
   <Patch Id="K7G7ntNodXPQKHmL5dSQa0">
     <Canvas Id="DY5OxlXqUd2Ma6W92VH6vA" DefaultCategory="Main" BordersChecked="false" CanvasType="FullCategory" />
     <!--
@@ -16,7 +16,7 @@
       <Patch Id="GRZ7X8IlxOKNaVKthAEMlr">
         <Canvas Id="QFkmfjWUPtHMezX3Prf4tu" CanvasType="Group">
           <Node Bounds="124,491,47,19" Id="ObyjRcir7R5LxuBEzpXKF2">
-            <p:NodeReference LastCategoryFullName="ML.RunwayML" LastSymbolSource="VL.RunwayML.dll">
+            <p:NodeReference LastCategoryFullName="ML.RunwayML" LastSymbolSource="VL.RunwayML-Factory">
               <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
               <Choice Kind="ProcessNode" Name="im2txt" />
             </p:NodeReference>
@@ -58,7 +58,7 @@
               <p:showvalue p:Type="Boolean">false</p:showvalue>
             </p:ValueBoxSettings>
           </Pad>
-          <Pad Id="A30R3u1OR0JLTekoaEWjX7" Comment="Caption" Bounds="126,543,130,47" ShowValueBox="true" isIOBox="true" />
+          <Pad Id="A30R3u1OR0JLTekoaEWjX7" Comment="Caption" Bounds="126,543,288,35" ShowValueBox="true" isIOBox="true" />
           <Pad Id="QS9JFRXuGXBNxv8iOavEIy" Bounds="126,242,232,61" ShowValueBox="true" isIOBox="true" Value="Seeing red nodes? Check the Prerequisites help patch in the help browser.">
             <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
               <Choice Kind="TypeFlag" Name="String" />
@@ -85,6 +85,6 @@
       </Patch>
     </Node>
   </Patch>
-  <NugetDependency Id="NW6WDWfqYJaPofVjY6quwc" Location="VL.Skia" Version="2020.2.0-0202-ge5ff990162" />
+  <NugetDependency Id="NW6WDWfqYJaPofVjY6quwc" Location="VL.Skia" Version="2020.2.0" />
   <NugetDependency Id="Gq01VE9PYBVOHUZbudT2YT" Location="VL.RunwayML" Version="0.0.0.0" />
 </Document>

@@ -17,40 +17,99 @@ using VL.Skia;
 using SkiaSharp;
 using VL.Lib.Collections;
 using Stride.Core.Mathematics;
-
-// Tells VL what node factory to instantiate. A VL file referencing this assembly will have access to the nodes returned by the factory.
-[assembly: NodeFactory(typeof(RunwayMLFactory))]
+using System.Reactive.Linq;
 
 namespace VL.RunwayML
 {
     public class RunwayMLFactory : IVLNodeDescriptionFactory
     {
-        public RunwayMLFactory()
+        const string runwayHosted = "hosted-models.txt";
+        const string runwayLocal = "local-models.txt";
+        const string runwaySubDir = "runway";
+
+        public readonly string Directory;
+        public readonly string DirectoryToWatch;
+        public RunwayMLFactory(string directory = default, string directoryToWatch = default)
         {
+            Directory = directory;
+            DirectoryToWatch = directoryToWatch;
+
             var builder = ImmutableArray.CreateBuilder<IVLNodeDescription>();
-            var runway = File.ReadAllText(Path.Combine(Session.UserDocumentFolder, "runway-hosted.txt"));
-
-            var hostedModels = runway.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var model in hostedModels)
+            if (directory != null)
             {
-                var infos = model.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToList();
-                builder.Add(new ModelDescription(this, infos[0], infos[1], infos[2]));
-            }
+                if (File.Exists(Path.Combine(directory, runwayHosted)))
+                {
+                    var runway = File.ReadAllText(Path.Combine(directory, runwayHosted));
 
-            runway = File.ReadAllText(Path.Combine(Session.UserDocumentFolder, "runway-local.txt"));
+                    var hostedModels = runway.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var model in hostedModels)
+                    {
+                        var infos = model.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToList();
+                        builder.Add(new ModelDescription(this, infos[0], infos[1], infos[2]));
+                    }
+                }
 
-            var localModels = runway.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var model in localModels)
-            {
-                var infos = model.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToList();
-                builder.Add(new ModelDescription(this, infos[0], infos[1]));
+                if (File.Exists(Path.Combine(directory, runwayLocal)))
+                {
+                    var runway = File.ReadAllText(Path.Combine(directory, runwayLocal));
+
+                    var localModels = runway.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var model in localModels)
+                    {
+                        var infos = model.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToList();
+                        builder.Add(new ModelDescription(this, infos[0], infos[1]));
+                    }
+                }
             }
             NodeDescriptions = builder.ToImmutable();
         }
 
         public ImmutableArray<IVLNodeDescription> NodeDescriptions { get; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public string Identifier
+        {
+            get
+            {
+                var i = "VL.RunwayML-Factory";
+                if (Directory != null)
+                    return $"{i} ({Directory})";
+                return i;
+            }
+        }
+
+        public IObservable<object> Invalidated
+        {
+            get
+            {
+                if (Directory != null)
+                {
+                    return NodeBuilding.WatchDir(Directory)
+                        .Where(e => string.Equals(e.Name, runwayHosted, StringComparison.OrdinalIgnoreCase) || string.Equals(e.Name, runwayLocal, StringComparison.OrdinalIgnoreCase));
+                }
+                else if (DirectoryToWatch!= null)
+                {
+                    return NodeBuilding.WatchDir(DirectoryToWatch)
+                        .Where(e => e.Name == runwaySubDir);
+                }
+                else
+                {
+                    return Observable.Empty<object>();
+                }
+            }
+        }
+
+        public void Export(ExportContext exportContext)
+        {
+            
+        }
+
+        public IVLNodeDescriptionFactory ForPath(string path)
+        {
+            var runwayDir = Path.Combine(path, runwaySubDir);
+            if (System.IO.Directory.Exists(runwayDir))
+                return new RunwayMLFactory(runwayDir);
+            return new RunwayMLFactory(directoryToWatch: path);
+        }
 
         class ModelPinDescription : IVLPinDescription, IInfo
         {
@@ -277,6 +336,8 @@ namespace VL.RunwayML
             public string Summary => FSummary;
 
             public string Remarks => "";
+
+            public IObservable<object> Invalidated => Observable.Empty<object>();
 
             public IVLNode CreateInstance(NodeContext context)
             {

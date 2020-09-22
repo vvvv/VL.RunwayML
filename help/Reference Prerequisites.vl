@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" Id="GxACg5yfkG3OJqGed6tXhP" LanguageVersion="2020.2.0.202" Version="0.128">
-  <NugetDependency Id="OdLCK54XC2JOVjryYwR8pS" Location="VL.CoreLib" Version="2020.2.0-0202-ge5ff990162" />
+<Document xmlns:p="property" Id="GxACg5yfkG3OJqGed6tXhP" LanguageVersion="2020.2.0.269" Version="0.128">
+  <NugetDependency Id="OdLCK54XC2JOVjryYwR8pS" Location="VL.CoreLib" Version="2020.2.0" />
   <Patch Id="OTKalRP1694PdA9NUjyEac">
     <Canvas Id="RPltXqlYeFOOqH8TgmsKqs" DefaultCategory="Main" BordersChecked="false" CanvasType="FullCategory" />
     <!--
@@ -16,7 +16,7 @@
       <Patch Id="MXWhe2fMlcfN4h8EheRrOg">
         <Canvas Id="HH5Lcf6SKrBOLHtPMiEJhl" CanvasType="Group">
           <Node Bounds="250,363,96,19" Id="NQUdEqQbb3jNo7oGjjSQ2i">
-            <p:NodeReference LastCategoryFullName="ML.RunwayML" LastSymbolSource="VL.RunwayML.dll">
+            <p:NodeReference LastCategoryFullName="ML.RunwayML" LastSymbolSource="VL.RunwayML-Factory">
               <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
               <Choice Kind="ProcessNode" Name="Face-Recognition" />
             </p:NodeReference>
@@ -62,7 +62,7 @@
               <Choice Kind="ProcessAppFlag" Name="Renderer" />
               <CategoryReference Kind="Category" Name="Skia" NeedsToBeDirectParent="true" />
             </p:NodeReference>
-            <Pin Id="OWrJxqGcc07OFATEdzLCtf" Name="Bounds" Kind="InputPin" DefaultValue="1053, 361, 409, 387">
+            <Pin Id="OWrJxqGcc07OFATEdzLCtf" Name="Bounds" Kind="InputPin" DefaultValue="1148, 353, 409, 387">
               <p:TypeAnnotation LastCategoryFullName="System.Drawing" LastSymbolSource="System.Drawing.dll">
                 <Choice Kind="TypeFlag" Name="Rectangle" />
               </p:TypeAnnotation>
@@ -112,7 +112,7 @@
             <Pin Id="FsvllX52dQzOQzjJw3JFB1" Name="Input 2" Kind="InputPin" />
             <Pin Id="R8Nhd98SYz3OwLSWOq4sEU" Name="Output" Kind="OutputPin" />
           </Node>
-          <Pad Id="Jy3PuGOHvjoLVhbS5ztiub" Bounds="534,515,248,24" ShowValueBox="true" isIOBox="true" Value="https://github.com/vvvv/VL.RunwayML">
+          <Pad Id="Jy3PuGOHvjoLVhbS5ztiub" Bounds="534,530,248,24" ShowValueBox="true" isIOBox="true" Value="https://github.com/vvvv/VL.RunwayML">
             <p:TypeAnnotation>
               <Choice Kind="TypeFlag" Name="String" />
             </p:TypeAnnotation>
@@ -121,7 +121,7 @@
               <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Link</p:stringtype>
             </p:ValueBoxSettings>
           </Pad>
-          <Pad Id="IgjhLbH4MrXLb2n5eAwkka" Bounds="534,272,279,116" ShowValueBox="true" isIOBox="true" Value="Seing a red node? No problem. To run this model, you first need to have an account on RunwayML, and host the Face-Recognition model with the command set to Detect Faces. This is an easy process, just head over to the related instructions for more details :">
+          <Pad Id="IgjhLbH4MrXLb2n5eAwkka" Bounds="534,272,279,116" ShowValueBox="true" isIOBox="true" Value="Seing a red node? No problem. To run this model, you first need to have an account on RunwayML, and host the Face-Recognition model with the command set to Detect Faces. This is an easy process, just head over to the related instructions for more details:">
             <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
               <Choice Kind="TypeFlag" Name="String" />
             </p:TypeAnnotation>
@@ -139,7 +139,7 @@
               <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Link</p:stringtype>
             </p:ValueBoxSettings>
           </Pad>
-          <Pad Id="LFcCMF0nTOsPbSZuHMNciY" Bounds="534,450,275,65" ShowValueBox="true" isIOBox="true" Value="Then, you need to create a text file in your vvvv folder to tell vvvv where to look for your hosted models. Follow these instructions">
+          <Pad Id="LFcCMF0nTOsPbSZuHMNciY" Bounds="534,429,276,94" ShowValueBox="true" isIOBox="true" Value="Then, you need to create a text file in a subdirectory &quot;runway&quot; next to the .vl document you want to use runway nodes in, to tell vvvv where to look for your hosted models. Follow these instructions:">
             <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
               <Choice Kind="TypeFlag" Name="String" />
             </p:TypeAnnotation>
@@ -148,7 +148,7 @@
               <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
             </p:ValueBoxSettings>
           </Pad>
-          <Pad Id="DWrbNtyiFxnNx3xpVncgw8" Bounds="534,545,306,116" ShowValueBox="true" isIOBox="true" Value="and simply restart vvvv, the patch should be working! Bang the Query pin to run the model.&#xD;&#xA;&#xD;&#xA;Then, repeat this process for all the models you want to use : adding an entry in the runway.txt file will generate new nodes when vvvv restarts.">
+          <Pad Id="DWrbNtyiFxnNx3xpVncgw8" Bounds="534,560,293,138" ShowValueBox="true" isIOBox="true" Value="The patch should then be working! Bang the Query pin to run the model.&#xD;&#xA;&#xD;&#xA;Then, repeat this process for all the models you want to use: adding an entry in the runway text files will generate new nodes in vvvv. No restart required.">
             <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
               <Choice Kind="TypeFlag" Name="String" />
             </p:TypeAnnotation>
@@ -285,5 +285,5 @@
   </Patch>
   <NugetDependency Id="TK1F480arAwMxjdqGjOvE4" Location="VL.Stride" Version="0.7.294-g5519d332da" />
   <NugetDependency Id="U5QZGq9Q57CPL6X6RGdy4U" Location="VL.RunwayML" Version="0.0.0.0" />
-  <NugetDependency Id="F0PHxDD844iLq2pafJ0Frg" Location="VL.Skia" Version="2020.2.0-0202-ge5ff990162" />
+  <NugetDependency Id="F0PHxDD844iLq2pafJ0Frg" Location="VL.Skia" Version="2020.2.0" />
 </Document>
