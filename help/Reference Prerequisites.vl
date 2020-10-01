@@ -62,7 +62,7 @@
               <Choice Kind="ProcessAppFlag" Name="Renderer" />
               <CategoryReference Kind="Category" Name="Skia" NeedsToBeDirectParent="true" />
             </p:NodeReference>
-            <Pin Id="OWrJxqGcc07OFATEdzLCtf" Name="Bounds" Kind="InputPin" DefaultValue="1148, 353, 409, 387">
+            <Pin Id="OWrJxqGcc07OFATEdzLCtf" Name="Bounds" Kind="InputPin" DefaultValue="1030, 59, 409, 387">
               <p:TypeAnnotation LastCategoryFullName="System.Drawing" LastSymbolSource="System.Drawing.dll">
                 <Choice Kind="TypeFlag" Name="Rectangle" />
               </p:TypeAnnotation>
@@ -283,7 +283,6 @@
       </Patch>
     </Node>
   </Patch>
-  <NugetDependency Id="TK1F480arAwMxjdqGjOvE4" Location="VL.Stride" Version="0.7.294-g5519d332da" />
   <NugetDependency Id="U5QZGq9Q57CPL6X6RGdy4U" Location="VL.RunwayML" Version="0.0.0.0" />
   <NugetDependency Id="F0PHxDD844iLq2pafJ0Frg" Location="VL.Skia" Version="2020.2.0" />
 </Document>
