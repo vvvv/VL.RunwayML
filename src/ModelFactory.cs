@@ -26,9 +26,14 @@ namespace VL.RunwayML
         const string runwayHosted = "hosted-models.txt";
         const string runwayLocal = "local-models.txt";
         const string runwaySubDir = "runway";
+        const string identifier = "VL.RunwayML-Factory";
 
         public readonly string Directory;
         public readonly string DirectoryToWatch;
+
+        // The node factory cache will invalidate in case a cached factory or one of its nodes invalidate
+        private readonly NodeFactoryCache factoryCache = new NodeFactoryCache();
+
         public RunwayMLFactory(string directory = default, string directoryToWatch = default)
         {
             Directory = directory;
@@ -70,10 +75,10 @@ namespace VL.RunwayML
         {
             get
             {
-                var i = "VL.RunwayML-Factory";
                 if (Directory != null)
-                    return $"{i} ({Directory})";
-                return i;
+                    return GetIdentifierForPath(Directory);
+                else
+                    return identifier;
             }
         }
 
@@ -86,7 +91,7 @@ namespace VL.RunwayML
                     return NodeBuilding.WatchDir(Directory)
                         .Where(e => string.Equals(e.Name, runwayHosted, StringComparison.OrdinalIgnoreCase) || string.Equals(e.Name, runwayLocal, StringComparison.OrdinalIgnoreCase));
                 }
-                else if (DirectoryToWatch!= null)
+                else if (DirectoryToWatch != null)
                 {
                     return NodeBuilding.WatchDir(DirectoryToWatch)
                         .Where(e => e.Name == runwaySubDir);
@@ -100,15 +105,22 @@ namespace VL.RunwayML
 
         public void Export(ExportContext exportContext)
         {
-            
+
         }
+
+        string GetIdentifierForPath(string path) => $"{identifier} ({path})";
 
         public IVLNodeDescriptionFactory ForPath(string path)
         {
-            var runwayDir = Path.Combine(path, runwaySubDir);
-            if (System.IO.Directory.Exists(runwayDir))
-                return new RunwayMLFactory(runwayDir);
-            return new RunwayMLFactory(directoryToWatch: path);
+            // VL caches node factories per compilation only, not across compilations -> use our own cache
+            var identifier = GetIdentifierForPath(path);
+            return factoryCache.GetOrAdd(identifier, () =>
+            {
+                var runwayDir = Path.Combine(path, runwaySubDir);
+                if (System.IO.Directory.Exists(runwayDir))
+                    return new RunwayMLFactory(runwayDir);
+                return new RunwayMLFactory(directoryToWatch: path);
+            });
         }
 
         class ModelPinDescription : IVLPinDescription, IInfo
@@ -155,7 +167,7 @@ namespace VL.RunwayML
             bool FInitialized;
             bool FNotFound;
             bool FIsLocal;
-            
+
             string FUrl;
             string FFullName;
             string FSummary;
@@ -409,7 +421,7 @@ namespace VL.RunwayML
                         else
                             inputs += "\"" + input.OriginalName + "\": " + GetValue(input.Value.ToString()) + ", ";
                     }
-                    inputs = inputs.TrimEnd(new char[2]{ ',', ' '}) + "}";
+                    inputs = inputs.TrimEnd(new char[2] { ',', ' ' }) + "}";
                     var data = Encoding.UTF8.GetBytes(inputs);
                     httpRequest.GetRequestStream().Write(data, 0, data.Length);
 
