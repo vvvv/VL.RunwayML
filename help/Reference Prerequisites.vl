@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" Id="GxACg5yfkG3OJqGed6tXhP" LanguageVersion="2020.2.0.269" Version="0.128">
-  <NugetDependency Id="OdLCK54XC2JOVjryYwR8pS" Location="VL.CoreLib" Version="2020.2.0" />
+<Document xmlns:p="property" Id="GxACg5yfkG3OJqGed6tXhP" LanguageVersion="2021.4.4.739" Version="0.128">
+  <NugetDependency Id="OdLCK54XC2JOVjryYwR8pS" Location="VL.CoreLib" Version="2021.4.4-0739-g5bebca9534" />
   <Patch Id="OTKalRP1694PdA9NUjyEac">
     <Canvas Id="RPltXqlYeFOOqH8TgmsKqs" DefaultCategory="Main" BordersChecked="false" CanvasType="FullCategory" />
     <!--
@@ -110,6 +110,8 @@
             </p:NodeReference>
             <Pin Id="RVJua26inqsNKgqnWBasZx" Name="Input" Kind="InputPin" />
             <Pin Id="FsvllX52dQzOQzjJw3JFB1" Name="Input 2" Kind="InputPin" />
+            <Pin Id="JrQlcdJOBd3Pb03TeOGPKi" Name="Debug" Kind="InputPin" />
+            <Pin Id="FU3kXtAaeSkNJjJOw25Ql1" Name="Enabled" Kind="InputPin" />
             <Pin Id="R8Nhd98SYz3OwLSWOq4sEU" Name="Output" Kind="OutputPin" />
           </Node>
           <Pad Id="Jy3PuGOHvjoLVhbS5ztiub" Bounds="534,530,248,24" ShowValueBox="true" isIOBox="true" Value="https://github.com/vvvv/VL.RunwayML">
@@ -130,7 +132,7 @@
               <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
             </p:ValueBoxSettings>
           </Pad>
-          <Pad Id="OxqGwe85Ow8PlSK1kfxaey" Bounds="534,394,272,19" ShowValueBox="true" isIOBox="true" Value="https://learn.runwayml.com/#/how-to/hosted-models">
+          <Pad Id="OxqGwe85Ow8PlSK1kfxaey" Bounds="534,394,272,19" ShowValueBox="true" isIOBox="true" Value="https://help.runwayml.com/hc/en-us/articles/4402110855571-Hosted-Models">
             <p:TypeAnnotation>
               <Choice Kind="TypeFlag" Name="String" />
             </p:TypeAnnotation>
@@ -173,6 +175,8 @@
               <CategoryReference Kind="Category" Name="Primitive" />
             </p:NodeReference>
             <Pin Id="BG07iHFH3hzO0DCw0ehRaP" Name="Condition" Kind="InputPin" />
+            <ControlPoint Id="Vivu1b0bJklL9Rwmpmp37N" Bounds="339,596" Alignment="Bottom" />
+            <ControlPoint Id="FJaF27d5wDiOgMsRGzXEfi" Bounds="337,450" Alignment="Top" />
             <Patch Id="BGtFxcgAEk7LhpY0HFlwFH" ManuallySortedPins="true">
               <Patch Id="QdUSU0BiJ0SP6StwESHQWm" Name="Create" ManuallySortedPins="true" />
               <Patch Id="Ta5vY9Ao0HlNxgK7yJ5AJI" Name="Then" ManuallySortedPins="true" />
@@ -202,21 +206,9 @@
                     <Choice Kind="TypeFlag" Name="Float32" />
                   </p:TypeAnnotation>
                 </Pin>
-                <Pin Id="JQEvAjMxGgaPCVKHN7mQ70" Name="Join" Kind="InputPin">
-                  <p:TypeAnnotation LastCategoryFullName="Graphics.Skia.Unwrapped.Enums" LastSymbolSource="VL.Skia.vl">
-                    <Choice Kind="TypeFlag" Name="SKStrokeJoin" />
-                  </p:TypeAnnotation>
-                </Pin>
-                <Pin Id="OZXyAzYdYPPOwevPxc1dem" Name="Cap" Kind="InputPin">
-                  <p:TypeAnnotation LastCategoryFullName="Graphics.Skia.Unwrapped.Enums" LastSymbolSource="VL.Skia.vl">
-                    <Choice Kind="TypeFlag" Name="SKStrokeCap" />
-                  </p:TypeAnnotation>
-                </Pin>
-                <Pin Id="FG7QLWkMASLQHGkc0dd18E" Name="Miter" Kind="InputPin">
-                  <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
-                    <Choice Kind="TypeFlag" Name="Float32" />
-                  </p:TypeAnnotation>
-                </Pin>
+                <Pin Id="JQEvAjMxGgaPCVKHN7mQ70" Name="Join" Kind="InputPin" />
+                <Pin Id="OZXyAzYdYPPOwevPxc1dem" Name="Cap" Kind="InputPin" />
+                <Pin Id="FG7QLWkMASLQHGkc0dd18E" Name="Miter" Kind="InputPin" />
                 <Pin Id="EXiysfQ0Z3LQM77JxwAOmb" Name="Output" Kind="OutputPin" />
               </Node>
               <Node Bounds="337,553,85,19" Id="QR5hwQQvGVXMvk086FonzT">
@@ -254,8 +246,6 @@
                 <Pin Id="RhwMt6sealbO12TgyPU2Lu" Name="Result" Kind="OutputPin" />
               </Node>
             </Patch>
-            <ControlPoint Id="Vivu1b0bJklL9Rwmpmp37N" Bounds="339,596" Alignment="Bottom" />
-            <ControlPoint Id="FJaF27d5wDiOgMsRGzXEfi" Bounds="337,450" Alignment="Top" />
           </Node>
           <ControlPoint Id="JCFNo3Vlv9EMk54bBiI3dA" Bounds="264,398" />
         </Canvas>
@@ -284,5 +274,5 @@
     </Node>
   </Patch>
   <NugetDependency Id="U5QZGq9Q57CPL6X6RGdy4U" Location="VL.RunwayML" Version="0.0.0.0" />
-  <NugetDependency Id="F0PHxDD844iLq2pafJ0Frg" Location="VL.Skia" Version="2020.2.0" />
+  <NugetDependency Id="F0PHxDD844iLq2pafJ0Frg" Location="VL.Skia" Version="2021.4.4-0739-g5bebca9534" />
 </Document>
