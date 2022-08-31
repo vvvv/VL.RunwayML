@@ -5,9 +5,11 @@ Try it with vvvv, the visual live-programming environment for .NET
 Download: http://visualprogramming.net
 
 ## Using the library
-Requires vvvv gamma 2020.2.0 or later.
+Requires:
+- vvvv gamma 2020.2.0 or later.
+- A login to RunwayML and access to the [ML Lab](https://app.runwayml.com/models).
 
-In order to use this library with VL you have to install the nuget that is available via nuget.org. For information on how to use nugets with VL, see [Managing Nugets](https://thegraybook.vvvv.org/reference/libraries/dependencies.html#manage-nugets) in the VL documentation. As described there you go to the commandline and then type:
+In order to use this library with VL you have to install the nuget that is available via nuget.org. For information on how to use nugets with VL, see [Managing Nugets]([https://thegraybook.vvvv.org/reference/libraries/dependencies.html#manage-nugets](https://thegraybook.vvvv.org/reference/hde/managing-nugets.html)) in the VL documentation. As described there you go to the commandline and then type:
 
     nuget install VL.RunwayML -pre
 
