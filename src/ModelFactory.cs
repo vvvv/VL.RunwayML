@@ -32,7 +32,7 @@ namespace VL.RunwayML
         public readonly string DirectoryToWatch;
 
         // The node factory cache will invalidate in case a cached factory or one of its nodes invalidate
-        private readonly NodeFactoryCache factoryCache = new NodeFactoryCache();
+        private readonly NodeFactoryCache factoryCache = ServiceRegistry.Global.GetService<NodeFactoryCache>();
 
         public RunwayMLFactory(string directory = default, string directoryToWatch = default)
         {
@@ -364,7 +364,7 @@ namespace VL.RunwayML
             }
         }
 
-        class MyNode : VLObject, IVLNode
+        class MyNode : FactoryBasedVLNode, IVLNode
         {
             class MyPin : IVLPin
             {

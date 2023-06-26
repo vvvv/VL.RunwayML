@@ -20,10 +20,10 @@ jobs:
       uses: nuget/setup-nuget@v1
       
     - name: Publish VL Nuget
-      uses: vvvv/PublishVLNuget@1.0.40
+      uses: vvvv/PublishVLNuget@1.0.42
       with:
         csproj: src/VL.RunwayML.csproj
         nuspec: deployment/VL.RunwayML.nuspec
         icon-src: https://raw.githubusercontent.com/vvvv/PublicContent/master/nugeticon.png
         icon-dst: nugeticon.png
-        nuget-key: ${{ secrets.NUGET_KEY }}
+        nuget-key: ${{ secrets.VVVV_ORG_NUGET_KEY }}
