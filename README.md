@@ -20,7 +20,7 @@ Next to your .vl document put two files:
     \runway\hosted-models.txt
     \runway\local-models.txt
 
-In `hosted-models.txt` you can define multiple [hosted models](https://help.runwayml.com/hc/en-us/articles/4402110855571-Hosted-Models). one per line (model name, url, token), like: 
+In `hosted-models.txt` you can define multiple [hosted models](http://web.archive.org/web/20230327124349/https://help.runwayml.com/hc/en-us/articles/4402110855571-Hosted-Models). one per line (model name, url, token), like: 
 
     runway/DenseDepth, https://densedepth-636803eb.hosted-models.runwayml.cloud/v1/, 000000000000==
 
