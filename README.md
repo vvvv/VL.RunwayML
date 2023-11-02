@@ -4,6 +4,9 @@ Use [RunwayML](http://runwayml.com) models as nodes in VL.
 Try it with vvvv, the visual live-programming environment for .NET  
 Download: http://visualprogramming.net
 
+## Deprecation notice
+On Nov. 1, 2023, Runway announced that ML Lab, the feature upon which this plugin depends, [will shut down at the end of this month](https://help.runwayml.com/hc/en-us/articles/22125973740691-Sunset-Notification-ML-Lab). As a consequence, this plugin will cease to function after that time.
+
 ## Using the library
 Requires:
 - vvvv gamma 2020.2.0 or later.
